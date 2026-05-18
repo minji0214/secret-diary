@@ -1,6 +1,7 @@
-// src/components/ui/GlassPanel.tsx
+import type { ReactNode } from 'react'
+
 interface GlassPanelProps {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }
 
