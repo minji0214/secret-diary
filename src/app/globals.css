@@ -1,26 +1,64 @@
+/* src/app/globals.css */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-midnight: #090B0F;
+  --color-purpleDust: #1C162E;
+  --color-softGray: #D4C5C7;
+  --color-accentViolet: #8A72D6;
+  --color-accentPink: #E8A7A1;
+
+  /* Fonts */
+  --font-sans: 'Pretendard', sans-serif;
+  --font-serif: 'Noto Serif KR', serif;
+  --font-display: 'Montserrat', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Base */
+* { box-sizing: border-box; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #030406;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Stars background */
+.stars {
+  background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+  background-size: 550px 550px, 350px 350px, 250px 250px;
+  background-position: 0 0, 40px 60px, 130px 270px;
+  animation: starMovement 120s linear infinite;
+}
+
+/* Glassmorphism */
+.glass-panel {
+  background: rgba(18, 20, 28, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Tarot card 3D */
+.perspective-1000 { perspective: 1000px; }
+.transform-style-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+
+/* Keyframes */
+@keyframes starMovement {
+  from { background-position: 0 0, 40px 60px, 130px 270px; }
+  to   { background-position: 550px 550px, 390px 410px, 380px 520px; }
+}
+
+@keyframes floatAway {
+  0%   { transform: translateY(0) scale(1);    opacity: 1; filter: blur(0); }
+  100% { transform: translateY(-80px) scale(0.95); opacity: 0; filter: blur(10px); }
+}
+
+.dissolving-text {
+  animation: floatAway 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
