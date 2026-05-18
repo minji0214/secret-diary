@@ -30,6 +30,7 @@ export default function OnboardingFlow() {
   const router = useRouter()
 
   function handleStart() {
+    if (typeof window === 'undefined') return
     localStorage.setItem('onboarded', 'true')
     router.push('/home')
   }
@@ -53,10 +54,12 @@ export default function OnboardingFlow() {
 
         {/* Slide dots */}
         <div className="flex gap-2">
-          {SLIDES.map((_, i) => (
+          {SLIDES.map((s, i) => (
             <button
-              key={i}
+              key={s.icon}
               onClick={() => setSlide(i)}
+              aria-label={s.title}
+              aria-current={i === slide ? 'true' : undefined}
               className={`w-2 h-2 rounded-full transition-all ${
                 i === slide ? 'bg-accentViolet w-6' : 'bg-white/20'
               }`}

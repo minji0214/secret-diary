@@ -13,18 +13,19 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black/40 border-t border-white/5 py-3 px-8 flex justify-around items-center backdrop-blur-sm">
+    <nav aria-label="주요 탐색" className="fixed bottom-0 left-0 right-0 z-50 bg-black/40 border-t border-white/5 py-3 px-8 flex justify-around items-center backdrop-blur-sm">
       {TABS.map((tab) => {
         const isActive = pathname === tab.href
         return (
           <Link
             key={tab.href}
             href={tab.href}
+            aria-current={isActive ? 'page' : undefined}
             className={`flex flex-col items-center gap-1 transition-colors ${
               isActive ? 'text-accentViolet' : 'text-white/40 hover:text-white'
             }`}
           >
-            <span className="text-xl">{tab.icon}</span>
+            <span aria-hidden="true" className="text-xl">{tab.icon}</span>
             <span className="text-[10px] font-medium font-sans">{tab.label}</span>
           </Link>
         )
