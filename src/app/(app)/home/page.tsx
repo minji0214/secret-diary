@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { EmotionTag, HomeStage } from '@/lib/tarot-data'
 import WriteStage from '@/components/home/WriteStage'
 import DissolvingStage from '@/components/home/DissolvingStage'
@@ -10,15 +10,17 @@ export default function HomePage() {
   const [stage, setStage] = useState<HomeStage>('write')
   const [inputText, setInputText] = useState('')
   const [selectedTag, setSelectedTag] = useState<EmotionTag | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleSubmit = useCallback((text: string, tag: EmotionTag | null) => {
     setInputText(text)
     setSelectedTag(tag)
     setStage('dissolving')
-    setTimeout(() => setStage('response'), 2500)
+    timerRef.current = setTimeout(() => setStage('response'), 2500)
   }, [])
 
   const handleReset = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current)
     setStage('write')
     setInputText('')
     setSelectedTag(null)

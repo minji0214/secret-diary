@@ -29,7 +29,7 @@ export default function CardSelection({ onSelect }: CardSelectionProps) {
             key={card.name}
             onClick={() => onSelect(card)}
             aria-label={`카드 ${i + 1} 선택`}
-            className={`w-[95px] h-[165px] group transform ${CARD_OFFSETS[i]} transition-all duration-500 hover:-translate-y-4 hover:scale-105 active:scale-95 cursor-pointer`}
+            className={`w-[95px] h-[165px] group transform ${CARD_OFFSETS[i] ?? 'translate-y-0'} transition-all duration-500 hover:-translate-y-4 hover:scale-105 active:scale-95 cursor-pointer`}
           >
             <div className="w-full h-full rounded-xl bg-gradient-to-br from-[#1F1836] to-[#0D0A18] border border-accentViolet/30 group-hover:border-accentViolet/70 transition-all p-3 flex flex-col justify-between items-center">
               <div className="border border-accentViolet/10 w-full h-full rounded-lg flex flex-col justify-between items-center py-4">

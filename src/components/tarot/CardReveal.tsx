@@ -14,8 +14,8 @@ export default function CardReveal({ card, onReset }: CardRevealProps) {
   const router = useRouter()
 
   useEffect(() => {
-    const t = setTimeout(() => setFlipped(true), 100)
-    return () => clearTimeout(t)
+    const id = requestAnimationFrame(() => setFlipped(true))
+    return () => cancelAnimationFrame(id)
   }, [])
 
   return (
@@ -56,7 +56,12 @@ export default function CardReveal({ card, onReset }: CardRevealProps) {
         <span className="text-xs text-accentPink bg-accentPink/10 px-3 py-1 rounded-full border border-accentPink/20">
           {card.cardLabel}
         </span>
-        <p className="text-xs text-white/80 leading-relaxed italic max-h-[140px] overflow-y-auto">
+        <p
+          className="text-xs text-white/80 leading-relaxed italic max-h-[140px] overflow-y-auto"
+          tabIndex={0}
+          role="region"
+          aria-label="카드 해석"
+        >
           "{card.interpretation}"
         </p>
       </div>

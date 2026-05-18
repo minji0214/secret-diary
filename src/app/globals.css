@@ -1,6 +1,13 @@
 /* src/app/globals.css */
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'SongamLeeHyeongSik';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2604-1@1.0/SongamIhyeongsik-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Colors */
   --color-midnight: #090B0F;
@@ -11,7 +18,7 @@
 
   /* Fonts */
   --font-sans: 'Pretendard', sans-serif;
-  --font-serif: 'Noto Serif KR', serif;
+  --font-serif: 'SongamLeeHyeongSik', serif;
   --font-display: 'Montserrat', sans-serif;
 }
 

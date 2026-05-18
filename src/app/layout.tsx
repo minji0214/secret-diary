@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Noto Serif KR + Montserrat: next/font/google doesn't reliably support Korean subsets; Pretendard is not on Google Fonts */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Noto+Serif+KR:wght@300;400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap"
           rel="stylesheet"
         />
         <link
