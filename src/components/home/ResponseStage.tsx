@@ -16,6 +16,7 @@ export default function ResponseStage({ text, tag, onReset }: ResponseStageProps
 
   return (
     <div className="flex flex-col gap-5">
+      {/* Scrollable chat area — user bubble + AI bubble ONLY */}
       <div className="max-h-[420px] overflow-y-auto pr-1 flex flex-col gap-4">
         {/* User bubble */}
         <div className="flex flex-col items-end">
@@ -37,23 +38,23 @@ export default function ResponseStage({ text, tag, onReset }: ResponseStageProps
             <p className="italic">"{aiResponse}"</p>
           </div>
         </div>
+      </div>
 
-        {/* Tarot offer banner */}
-        <div className="border border-accentViolet/30 bg-accentViolet/10 rounded-2xl p-4 flex flex-col gap-3 mt-2">
-          <div className="flex items-center gap-2">
-            <span className="text-accentPink text-sm" aria-hidden="true">🔮</span>
-            <span className="text-xs font-semibold text-accentPink">무의식의 1장 타로 리딩</span>
-          </div>
-          <p className="text-[11px] text-white/70 leading-relaxed">
-            "지금 마음으로 카드 한 장 볼래?"
-          </p>
-          <button
-            onClick={() => router.push('/tarot')}
-            className="w-full py-2 bg-accentViolet text-[11px] font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all"
-          >
-            네, 카드 한 장 볼래요
-          </button>
+      {/* Tarot offer banner — OUTSIDE scroll, always visible */}
+      <div className="border border-accentViolet/30 bg-accentViolet/10 rounded-2xl p-4 flex flex-col gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-accentPink text-sm" aria-hidden="true">🔮</span>
+          <span className="text-xs font-semibold text-accentPink">무의식의 1장 타로 리딩</span>
         </div>
+        <p className="text-[11px] text-white/70 leading-relaxed">
+          "지금 마음으로 카드 한 장 볼래?"
+        </p>
+        <button
+          onClick={() => router.push('/tarot')}
+          className="w-full py-2 bg-accentViolet text-[11px] font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all"
+        >
+          네, 카드 한 장 볼래요
+        </button>
       </div>
 
       {/* Reset */}

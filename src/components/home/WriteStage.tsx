@@ -36,6 +36,7 @@ export default function WriteStage({ onSubmit }: WriteStageProps) {
           <button
             key={t}
             onClick={() => setTag(tag === t ? null : t)}
+            aria-pressed={tag === t}
             className={`px-3 py-1.5 rounded-full text-xs border transition-all ${
               tag === t
                 ? 'bg-accentViolet/30 border-accentViolet text-white'
@@ -53,6 +54,7 @@ export default function WriteStage({ onSubmit }: WriteStageProps) {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}
+          aria-label="감정 내용 입력"
           className="w-full bg-transparent text-sm text-white/90 placeholder-white/20 resize-none outline-none min-h-[120px]"
         />
         <div className="absolute bottom-3 right-4 text-[10px] text-white/30">
@@ -63,7 +65,8 @@ export default function WriteStage({ onSubmit }: WriteStageProps) {
       {/* CTA */}
       <button
         onClick={handleSubmit}
-        className="w-full py-4 bg-accentViolet hover:opacity-90 active:scale-95 text-white text-sm font-semibold rounded-2xl transition-all flex items-center justify-center gap-2"
+        disabled={text.trim().length === 0}
+        className={`w-full py-4 bg-accentViolet hover:opacity-90 active:scale-95 text-white text-sm font-semibold rounded-2xl transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed`}
       >
         <span>감정 흘려보내기</span>
         <span>✈️</span>
