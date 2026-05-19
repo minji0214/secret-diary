@@ -1,13 +1,27 @@
+// src/app/(app)/tarot/page.tsx
 'use client'
 
-import { useState } from 'react'
-import { TarotCard, TarotStage } from '@/lib/tarot-data'
-import CardSelection from '@/components/tarot/CardSelection'
+import { useEffect, useState } from 'react'
+import { TarotCard, TarotStage, LastEmotion, EMOTION_BRIDGE } from '@/lib/tarot-data'
+import TarotIntention from '@/components/tarot/TarotIntention'
+import TarotFanSelection from '@/components/tarot/TarotFanSelection'
 import CardReveal from '@/components/tarot/CardReveal'
 
 export default function TarotPage() {
-  const [stage, setStage] = useState<TarotStage>('selection')
+  const [stage, setStage] = useState<TarotStage>('intention')
   const [selectedCard, setSelectedCard] = useState<TarotCard | null>(null)
+  const [lastEmotion, setLastEmotion] = useState<LastEmotion | null>(null)
+
+  useEffect(() => {
+    const raw = localStorage.getItem('lastEmotion')
+    if (raw) {
+      try {
+        setLastEmotion(JSON.parse(raw))
+      } catch {
+        // malformed JSON — ignore
+      }
+    }
+  }, [])
 
   function handleSelect(card: TarotCard) {
     setSelectedCard(card)
@@ -18,6 +32,10 @@ export default function TarotPage() {
     setSelectedCard(null)
     setStage('selection')
   }
+
+  const emotionBridge = lastEmotion?.tag
+    ? EMOTION_BRIDGE[lastEmotion.tag]
+    : EMOTION_BRIDGE['default']
 
   return (
     <div className="min-h-screen px-6 pt-12 pb-6">
@@ -35,9 +53,25 @@ export default function TarotPage() {
         )}
       </div>
 
-      {stage === 'selection' && <CardSelection onSelect={handleSelect} />}
+      {stage === 'intention' && (
+        <TarotIntention
+          lastEmotion={lastEmotion}
+          onStart={() => setStage('selection')}
+        />
+      )}
+      {stage === 'selection' && (
+        <TarotFanSelection onSelect={handleSelect} />
+      )}
       {stage === 'revealed' && selectedCard && (
-        <CardReveal card={selectedCard} onReset={handleReset} />
+        <CardReveal
+          card={selectedCard}
+          emotionBridge={emotionBridge}
+          onReset={handleReset}
+          onGoHome={() => {
+            setStage('intention')
+            setSelectedCard(null)
+          }}
+        />
       )}
     </div>
   )
