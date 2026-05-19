@@ -20,6 +20,7 @@ export default function ResponseStage({ text, tag, onReset }: ResponseStageProps
 
   useEffect(() => {
     let cancelled = false
+    let reader: ReadableStreamDefaultReader<Uint8Array> | undefined
 
     async function fetchResponse() {
       try {
@@ -31,7 +32,7 @@ export default function ResponseStage({ text, tag, onReset }: ResponseStageProps
 
         if (!res.ok || !res.body) throw new Error('API error')
 
-        const reader = res.body.getReader()
+        reader = res.body.getReader()
         const decoder = new TextDecoder()
 
         while (true) {
@@ -53,7 +54,10 @@ export default function ResponseStage({ text, tag, onReset }: ResponseStageProps
     }
 
     fetchResponse()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+      reader?.cancel()
+    }
   }, [text, tag])
 
   return (
