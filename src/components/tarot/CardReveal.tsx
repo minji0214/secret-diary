@@ -1,17 +1,18 @@
+// src/components/tarot/CardReveal.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { TarotCard } from '@/lib/tarot-data'
 
 interface CardRevealProps {
   card: TarotCard
+  emotionBridge: string
   onReset: () => void
+  onGoHome: () => void
 }
 
-export default function CardReveal({ card, onReset }: CardRevealProps) {
+export default function CardReveal({ card, emotionBridge, onReset, onGoHome }: CardRevealProps) {
   const [flipped, setFlipped] = useState(false)
-  const router = useRouter()
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setFlipped(true))
@@ -19,7 +20,7 @@ export default function CardReveal({ card, onReset }: CardRevealProps) {
   }, [])
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-5">
       {/* 3D flip card */}
       <div className="perspective-1000 w-[140px] h-[240px]">
         <div
@@ -33,50 +34,69 @@ export default function CardReveal({ card, onReset }: CardRevealProps) {
             </div>
           </div>
 
-          {/* Front face */}
+          {/* Front face — real artwork */}
           <div
-            className="absolute inset-0 rounded-2xl bg-[#1C162E] border-2 border-accentPink/50 p-4 flex flex-col justify-between backface-hidden shadow-2xl"
+            className="absolute inset-0 rounded-2xl overflow-hidden border-2 border-accentPink/40 backface-hidden shadow-2xl"
             style={{ transform: 'rotateY(180deg)' }}
           >
-            <div className={`w-full h-full rounded-xl border border-accentPink/20 flex flex-col justify-between items-center py-3 bg-gradient-to-br ${card.bgGradient}`}>
-              <span className="text-[9px] uppercase tracking-[0.2em] text-accentPink font-display">
-                {card.name}
-              </span>
-              <span className="text-4xl" aria-hidden="true">{card.icon}</span>
-              <span className="text-[9px] font-bold tracking-[0.1em] text-white text-center px-1">
-                {card.cardLabel}
-              </span>
-            </div>
+            <img
+              src={card.image}
+              alt={card.nameKr}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
 
-      {/* Interpretation */}
-      <div className="text-center px-2 flex flex-col items-center gap-3">
-        <span className="text-xs text-accentPink bg-accentPink/10 px-3 py-1 rounded-full border border-accentPink/20">
-          {card.cardLabel}
+      {/* Card name badge */}
+      <div className="inline-flex items-center gap-1.5 bg-accentPink/10 border border-accentPink/25 rounded-full px-3 py-1">
+        <span className="text-[10px] text-accentPink font-display tracking-widest">
+          {card.romanNumeral}
         </span>
-        <p
-          className="text-xs text-white/80 leading-relaxed italic max-h-[140px] overflow-y-auto"
-          tabIndex={0}
-          role="region"
-          aria-label="카드 해석"
-        >
-          "{card.interpretation}"
-        </p>
+        <span className="text-[10px] text-white/40">·</span>
+        <span className="text-[11px] text-accentPink font-medium">
+          {card.nameKr} ({card.name})
+        </span>
+      </div>
+
+      {/* Emotion bridge */}
+      <p className="text-[11px] text-accentViolet/80 italic text-center px-4 leading-relaxed">
+        "{emotionBridge}"
+      </p>
+
+      {/* Interpretation */}
+      <p
+        className="text-xs text-white/70 leading-relaxed text-center px-2 max-h-[100px] overflow-y-auto"
+        tabIndex={0}
+        role="region"
+        aria-label="카드 해석"
+      >
+        {card.interpretation}
+      </p>
+
+      {/* Keywords */}
+      <div className="flex flex-wrap gap-1.5 justify-center">
+        {card.keywords.map((kw) => (
+          <span
+            key={kw}
+            className="text-[10px] text-white/40 bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5"
+          >
+            #{kw}
+          </span>
+        ))}
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-2 w-full mt-1">
         <button
-          onClick={() => router.push('/home')}
-          className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white/80 text-xs font-semibold rounded-xl border border-white/10 transition-all"
+          onClick={onGoHome}
+          className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white/70 text-xs font-semibold rounded-xl border border-white/10 transition-all"
         >
-          내 감정 마저 쓰기
+          다시 적어보기
         </button>
         <button
           onClick={onReset}
-          className="flex-1 py-3 bg-accentViolet hover:opacity-90 text-white text-xs font-semibold rounded-xl transition-all"
+          className="flex-1 py-3 bg-accentViolet hover:opacity-90 active:scale-95 text-white text-xs font-semibold rounded-xl transition-all"
         >
           다른 카드 뽑기
         </button>
