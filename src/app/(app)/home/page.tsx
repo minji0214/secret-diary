@@ -16,6 +16,7 @@ export default function HomePage() {
     setInputText(text)
     setSelectedTag(tag)
     setStage('dissolving')
+    localStorage.setItem('lastEmotion', JSON.stringify({ tag, text }))
     timerRef.current = setTimeout(() => setStage('response'), 2500)
   }, [])
 
