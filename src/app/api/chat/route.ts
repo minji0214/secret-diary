@@ -28,13 +28,10 @@ export async function POST(request: Request) {
 
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      systemInstruction: SYSTEM_PROMPT,
-    })
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' })
 
     const result = await model.generateContentStream(
-      `감정: ${tag ?? '없음'}\n내용: "${text}"`
+      `${SYSTEM_PROMPT}\n\n---\n감정: ${tag ?? '없음'}\n내용: "${text}"`
     )
 
     const stream = new ReadableStream({
